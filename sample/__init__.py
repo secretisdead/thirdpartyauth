@@ -1,6 +1,6 @@
 from flask import Flask, Response, url_for
 
-app = Flask(__name__, static_folder='static', static_url_path='')
+app = Flask(__name__)
 
 @app.route('/')
 def services_list():
