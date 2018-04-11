@@ -62,9 +62,9 @@ class OAuth:
 		for key, value in sorted_params:
 			header += (
 				urllib.parse.quote_plus(key)
-				+ '="'
-				+ urllib.parse.quote_plus(value)
-				+ '",'
+					+ '="'
+					+ urllib.parse.quote_plus(value)
+					+ '",'
 			)
 
 		header = header[:-1]
@@ -87,15 +87,15 @@ class OAuth:
 		param_string = param_string[:-1]
 		base_string = (
 			self.method
-			+ '&'
-			+ urllib.parse.quote_plus(self.url)
-			+ '&'
-			+ urllib.parse.quote_plus(param_string)
+				+ '&'
+				+ urllib.parse.quote_plus(self.url)
+				+ '&'
+				+ urllib.parse.quote_plus(param_string)
 		).encode('utf8')
 		signing_key = (
 			urllib.parse.quote_plus(self.consumer_secret)
-			+ '&'
-			+ urllib.parse.quote_plus(self.token_secret)
+				+ '&'
+				+ urllib.parse.quote_plus(self.token_secret)
 		).encode('utf8')
 
 		import hmac

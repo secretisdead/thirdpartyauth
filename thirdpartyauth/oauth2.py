@@ -53,10 +53,10 @@ class GoogleAuth(OAuth2):
 		from . import add_state
 		uri = (
 			'https://accounts.google.com/o/oauth2/v2/auth'
-			+ '?response_type=code'
-			+ '&client_id=' + self.credentials['client_id']
-			+ '&redirect_uri=' + urllib.parse.quote_plus(redirect_uri)
-			+ '&scope=profile'
+				+ '?response_type=code'
+				+ '&client_id=' + self.credentials['client_id']
+				+ '&redirect_uri=' + urllib.parse.quote_plus(redirect_uri)
+				+ '&scope=profile'
 		)
 		return add_state(uri, state)
 
@@ -64,7 +64,7 @@ class GoogleAuth(OAuth2):
 		self.access_token_uri = 'https://www.googleapis.com/oauth2/v4/token'
 		self.user_info_uri = (
 			'https://www.googleapis.com/oauth2/v1/userinfo'
-			+ '?alt=json'
+				+ '?alt=json'
 		)
 		self.get_user_id = lambda user_info: user_info['id']
 		return super().authentication_value(redirect_uri)
@@ -75,10 +75,10 @@ class PatreonAuth(OAuth2):
 		from . import add_state
 		uri = (
 			'https://www.patreon.com/oauth2/authorize'
-			+ '?response_type=code'
-			+ '&client_id=' + self.credentials['client_id']
-			+ '&redirect_uri=' + urllib.parse.quote_plus(redirect_uri)
-			+ '&scope=users'
+				+ '?response_type=code'
+				+ '&client_id=' + self.credentials['client_id']
+				+ '&redirect_uri=' + urllib.parse.quote_plus(redirect_uri)
+				+ '&scope=users'
 		)
 		return add_state(uri, state)
 
@@ -94,10 +94,10 @@ class DiscordAuth(OAuth2):
 		from . import add_state
 		uri = (
 			'https://discordapp.com/api/oauth2/authorize'
-			+ '?response_type=code'
-			+ '&client_id=' + self.credentials['client_id']
-			+ '&redirect_uri=' + urllib.parse.quote_plus(redirect_uri)
-			+ '&scope=identify'
+				+ '?response_type=code'
+				+ '&client_id=' + self.credentials['client_id']
+				+ '&redirect_uri=' + urllib.parse.quote_plus(redirect_uri)
+				+ '&scope=identify'
 		)
 		return add_state(uri, state)
 
@@ -113,10 +113,10 @@ class TwitchAuth(OAuth2):
 		from . import add_state
 		uri = (
 			'https://api.twitch.tv/kraken/oauth2/authorize'
-			+ '?response_type=code'
-			+ '&client_id=' + self.credentials['client_id']
-			+ '&redirect_uri=' + urllib.parse.quote_plus(redirect_uri)
-			+ '&scope=user:read:email'
+				+ '?response_type=code'
+				+ '&client_id=' + self.credentials['client_id']
+				+ '&redirect_uri=' + urllib.parse.quote_plus(redirect_uri)
+				+ '&scope=user:read:email'
 		)
 		return add_state(uri, state)
 

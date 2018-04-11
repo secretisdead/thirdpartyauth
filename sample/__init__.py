@@ -9,10 +9,10 @@ def services_list():
 	for service in services:
 		services_list += (
 			'<a href="'
-			+ url_for('sign_in', service=service)
-			+ '">'
-			+ service
-			+ '</a><br>'
+				+ url_for('sign_in', service=service)
+				+ '">'
+				+ service
+				+ '</a><br>'
 		)
 	return Response(services_list, mimetype='text/html')
 
