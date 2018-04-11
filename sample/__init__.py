@@ -8,9 +8,7 @@ def services_list():
 	from thirdpartyauth import services
 	for service in services:
 		services_list += (
-			'<a href="'
-				+ url_for('sign_in', service=service)
-				+ '">'
+			'<a href="' + url_for('sign_in', service=service) + '">'
 				+ service
 				+ '</a><br>'
 		)
