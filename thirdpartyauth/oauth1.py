@@ -92,7 +92,7 @@ class TwitterAuth(OAuth1):
 		self.access_token_uri = 'https://api.twitter.com/oauth/request_token'
 		self.authentication_uri = (
 			'https://api.twitter.com/oauth/authenticate'
-			+ '?oauth_token='
+				+ '?oauth_token='
 		)
 		return super().authentication_uri(redirect_uri, state)
 
