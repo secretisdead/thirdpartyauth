@@ -1,54 +1,24 @@
-services = {
-	'twitter': 'oauth1',
-	'google': 'oauth2',
-	'patreon': 'oauth2',
-	'discord': 'oauth2',
-	'twitch': 'oauth2',
-	'steam': 'openid',
-}
-methods = {
-	'oauth1': {
-		'twitter',
-	},
-	'oauth2': {
-		'google',
-		'patreon',
-		'discord',
-		'twitch',
-	},
-	'openid': {
-		'steam',
-	}
-}
-
 def third_party_auth(service, credentials={}):
-	if service not in services:
-		raise ValueError('Unknown authentication service')
-
-	# OAuth1
-	if service in methods['oauth1']:
-		from . import oauth1
-		if 'twitter' == service:
-			return oauth1.TwitterAuth(credentials)
-	# OAuth2
-	elif service in methods['oauth2']:
-		from . import oauth2
-		if 'google' == service:
-			return oauth2.GoogleAuth(credentials)
-		elif 'patreon' == service:
-			return oauth2.PatreonAuth(credentials)
-		elif 'discord' == service:
-			return oauth2.DiscordAuth(credentials)
-		elif 'twitch' == service:
-			return oauth2.TwitchAuth(credentials)
-
-	# OpenID
-	elif service in methods['openid']:
-		from . import openid
-		if 'steam' == service:
-			return openid.SteamAuth()
-
-	raise ValueError('Unknown authentication method')
+	if 'twitter' == service:
+		from . twitter_auth import TwitterAuth
+		return TwitterAuth(credentials)
+	elif 'google' == service:
+		from . google_auth import GoogleAuth
+		return GoogleAuth(credentials)
+	elif 'patreon' == service:
+		from . patreon_auth import PatreonAuth
+		return PatreonAuth(credentials)
+	elif 'discord' == service:
+		from . discord_auth import DiscordAuth
+		return DiscordAuth(credentials)
+	elif 'twitch' == service:
+		from . twitch_auth import TwitchAuth
+		return TwitchAuth(credentials)
+	elif 'steam' == service:
+		from . steam_auth import SteamAuth
+		return SteamAuth()
+	else:
+		raise ValueError('Unsupported authentication service')
 
 def add_state(uri, state):
 	if not state:
