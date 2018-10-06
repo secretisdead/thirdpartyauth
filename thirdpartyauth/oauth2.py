@@ -1,3 +1,8 @@
+import urllib
+import json
+
+from flask import request
+
 class OAuth2:
 	def __init__(self, credentials):
 		if 'client_id' not in credentials:
@@ -9,16 +14,11 @@ class OAuth2:
 		self.credentials = credentials
 
 	def requires_redirect(self):
-		from flask import request
 		if 'code' not in request.args:
 			return True
 		return False
 
 	def authentication_value(self, redirect_uri):
-		import urllib
-		import json
-
-		from flask import request
 
 		data = urllib.parse.urlencode({
 			'code': request.args['code'],

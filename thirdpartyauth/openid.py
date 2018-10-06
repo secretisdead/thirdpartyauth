@@ -1,12 +1,15 @@
+from openid.consumer import consumer
+from flask import request
+
+from . import add_state
+
 class OpenID:
 	def requires_redirect(self):
-		from flask import request
 		if 'openid.identity' not in request.args:
 			return True
 		return False
 
 	def authentication_uri(self, redirect_uri, state=''):
-		from openid.consumer import consumer
 		csm = consumer.Consumer({}, None)
 		csm.consumer.openid1_nonce_query_arg_name = 'jnonce'
 
@@ -17,19 +20,15 @@ class OpenID:
 		if -1 != realm_end:
 			realm = redirect_uri[:realm_end]
 
-		from . import add_state
 		redirect_uri = add_state(redirect_uri, state)
 
 		auth_req = csm.begin(self.auth_uri)
 		return auth_req.redirectURL(realm, return_to=redirect_uri)
 
 	def authentication_value(self, redirect_uri, state=''):
-		from flask import request
-		from openid.consumer import consumer
 		csm = consumer.Consumer({}, None)
 		csm.consumer.openid1_nonce_query_arg_name = 'jnonce'
 
-		from . import add_state
 		redirect_uri = add_state(redirect_uri, state)
 
 		if 'jnonce' in request.args:

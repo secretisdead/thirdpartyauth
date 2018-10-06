@@ -1,3 +1,10 @@
+import random
+import string
+import urllib
+import hmac
+import hashlib
+import base64
+
 def ksort(d):
 	return [(k, d[k]) for k in sorted(d.keys())]
 
@@ -44,9 +51,6 @@ class OAuth:
 		self.data = data
 
 	def generate_nonce(self):
-		import random
-		import string
-
 		return ''.join(
 			random.choice(
 				string.ascii_uppercase + string.ascii_lowercase + string.digits
@@ -54,8 +58,6 @@ class OAuth:
 		)
 
 	def generate_header(self):
-		import urllib
-
 		self.sign()
 		header = ''
 		sorted_params = ksort(self.params)
@@ -71,8 +73,6 @@ class OAuth:
 		return 'Authorization', 'OAuth ' + header
 
 	def sign(self):
-		import urllib
-
 		self.add_param('oauth_signature_method', 'HMAC-SHA1')
 		#self.add_param('oauth_signature_method', 'HMAC-SHA256')
 		params_encoded = {}
@@ -98,8 +98,6 @@ class OAuth:
 				+ urllib.parse.quote_plus(self.token_secret)
 		).encode('utf8')
 
-		import hmac
-		import hashlib
 		hmac_digest = hmac.new(
 			signing_key,
 			base_string,
@@ -107,6 +105,5 @@ class OAuth:
 			#hashlib.sha256
 		).digest()
 
-		import base64
 		self.signature = base64.b64encode(hmac_digest).decode('utf8')
 		self.add_param('oauth_signature', self.signature)

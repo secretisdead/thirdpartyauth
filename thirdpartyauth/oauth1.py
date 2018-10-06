@@ -1,3 +1,12 @@
+import time
+import math
+import urllib
+
+from . import add_state
+from . oauth import OAuth
+
+from flask import request
+
 class OAuth1:
 	def __init__(self, credentials):
 		if 'client_id' not in credentials:
@@ -9,11 +18,6 @@ class OAuth1:
 		self.credentials = credentials
 
 	def oauth_request(self, url, params={}):
-		import time
-		import math
-		import urllib
-		from .oauth import OAuth
-
 		oauth = OAuth(
 			self.credentials['client_id'],
 			self.credentials['client_secret']
@@ -44,7 +48,6 @@ class OAuth1:
 		return oauth_response
 
 	def requires_redirect(self):
-		from flask import request
 		if (
 			'oauth_token' not in request.args
 			or not request.args['oauth_token']
@@ -55,7 +58,6 @@ class OAuth1:
 		return False
 
 	def authentication_uri(self, redirect_uri, state=''):
-		from . import add_state
 		redirect_uri = add_state(redirect_uri, state)
 
 		req = self.oauth_request(
@@ -63,7 +65,6 @@ class OAuth1:
 			params={'oauth_callback': redirect_uri}
 		)
 
-		import urllib
 		response = urllib.request.urlopen(req)
 		if not response:
 			raise ValueError('Empty access token response')
@@ -72,14 +73,12 @@ class OAuth1:
 		return self.authentication_uri + oauth_token
 
 	def authentication_value(self, redirect_uri):
-		from flask import request
 		params = {
 			'oauth_token': request.args['oauth_token'],
 			'oauth_verifier': request.args['oauth_verifier'],
 		}
 		req = self.oauth_request(self.user_info_uri, params=params)
 
-		import urllib
 		response = urllib.request.urlopen(req)
 		if not response:
 			raise ValueError('Empty user info response')
