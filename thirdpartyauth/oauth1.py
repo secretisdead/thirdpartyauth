@@ -49,10 +49,10 @@ class OAuth1:
 
 	def requires_redirect(self):
 		if (
-			'oauth_token' not in request.args
-			or not request.args['oauth_token']
-			or 'oauth_verifier' not in request.args
-			or not request.args['oauth_verifier']
+				'oauth_token' not in request.args
+				or not request.args['oauth_token']
+				or 'oauth_verifier' not in request.args
+				or not request.args['oauth_verifier']
 			):
 			return True
 		return False
