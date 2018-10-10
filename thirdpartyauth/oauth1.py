@@ -8,7 +8,7 @@ from . oauth import OAuth
 from flask import request
 
 class OAuth1:
-	def __init__(self, credentials):
+	def __init__(self, credentials, useragent=''):
 		if 'client_id' not in credentials:
 			raise KeyError('Missing client ID')
 
@@ -16,6 +16,7 @@ class OAuth1:
 			raise KeyError('Missing client secret')
 
 		self.credentials = credentials
+		self.useragent = useragent
 
 	def oauth_request(self, url, params={}):
 		oauth = OAuth(
@@ -33,7 +34,8 @@ class OAuth1:
 
 		data = urllib.parse.urlencode({}).encode('utf8')
 		req = urllib.request.Request(url, data) 
-		req.add_header('User-Agent', 'Mozilla')
+		if self.useragent:
+			req.add_header('User-Agent', self.useragent)
 		req.add_header(*oauth.generate_header())
 
 		return req

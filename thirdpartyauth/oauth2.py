@@ -4,7 +4,7 @@ import json
 from flask import request
 
 class OAuth2:
-	def __init__(self, credentials):
+	def __init__(self, credentials, useragent=''):
 		if 'client_id' not in credentials:
 			raise KeyError('Missing client ID')
 
@@ -12,6 +12,7 @@ class OAuth2:
 			raise KeyError('Missing client secret')
 
 		self.credentials = credentials
+		self.useragent = useragent
 
 	def requires_redirect(self):
 		if 'code' not in request.args:
@@ -28,7 +29,8 @@ class OAuth2:
 			'redirect_uri': redirect_uri,
 		}).encode('utf8')
 		req = urllib.request.Request(self.access_token_uri, data)
-		req.add_header('User-Agent', 'Mozilla')
+		if self.useragent:
+			req.add_header('User-Agent', self.useragent)
 
 		response = urllib.request.urlopen(req)
 		if not response:
@@ -38,7 +40,8 @@ class OAuth2:
 			
 		req = urllib.request.Request(self.user_info_uri) 
 		req.add_header('Authorization', 'Bearer ' + access_token)
-		req.add_header('User-Agent', 'Mozilla')
+		if self.useragent:
+			req.add_header('User-Agent', self.useragent)
 
 		response = urllib.request.urlopen(req)
 		if not response:
