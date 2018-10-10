@@ -19,8 +19,7 @@ class OAuth2:
 			return True
 		return False
 
-	def authentication_value(self, redirect_uri):
-
+	def authentication_value(self, redirect_uri, access_token_headers={}):
 		data = urllib.parse.urlencode({
 			'code': request.args['code'],
 			'grant_type': 'authorization_code',
@@ -31,6 +30,8 @@ class OAuth2:
 		req = urllib.request.Request(self.access_token_uri, data)
 		if self.useragent:
 			req.add_header('User-Agent', self.useragent)
+		for header, value in access_token_headers.items():
+			req.add_header(header, value)
 
 		response = urllib.request.urlopen(req)
 		if not response:
