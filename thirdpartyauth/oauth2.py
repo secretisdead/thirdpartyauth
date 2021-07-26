@@ -37,7 +37,7 @@ class OAuth2:
 		if not response:
 			raise ValueError('Empty access token response')
 
-		access_token = json.loads(response.read())['access_token']
+		access_token = json.loads(response.read().decode('utf-8'))['access_token']
 			
 		req = urllib.request.Request(self.user_info_uri) 
 		req.add_header('Authorization', 'Bearer ' + access_token)
@@ -48,5 +48,5 @@ class OAuth2:
 		if not response:
 			raise ValueError('Empty user info response')
 
-		user_info = json.loads(response.read())
+		user_info = json.loads(response.read().decode('utf-8'))
 		return self.get_user_id(user_info)
